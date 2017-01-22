@@ -1,0 +1,61 @@
+#include <Servo.h> 
+Servo myservo;  // create servo object to control a servo 
+
+
+char input[3];
+int inp[3];
+int res;
+
+int powint(int x, int y)
+{
+ int val=x;
+ for(int z=0;z<=y;z++)
+ {
+   if(z==0)
+     val=1;
+   else
+     val=val*x;
+ }
+ return val;
+}
+
+
+void setup() {
+     Serial.begin(9600);
+       myservo.attach(7);
+       myservo.write(180);
+       }
+
+void loop() {
+        int value=0;
+        int str_ln=0;
+         while(Serial.available())
+         {
+           delay(10);
+          input[str_ln]=Serial.read();
+          str_ln+=1;
+         }
+         if(str_ln>0){
+         //Serial.println(str_ln);
+         }
+         
+         if (str_ln >0) { 
+         
+         for(int i=0;i<str_ln;i++)
+           {
+            inp[i] = int(input[i])-'0';          
+            //Serial.println(inp[i]);  
+            value=value+ inp[i]*powint(10,str_ln-i-1);
+           }
+         Serial.println(value);
+         myservo.write(value);
+         
+         
+       
+         }
+       
+         
+       
+       
+    
+  }
